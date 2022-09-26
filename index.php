@@ -1,5 +1,54 @@
 <?php
-$Lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut turpis tincidunt, dignissim nisi nec, volutpat tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse cursus tincidunt volutpat. Nam molestie tortor eu purus vestibulum malesuada eget non sem. Etiam a lorem cursus, rhoncus elit vitae, luctus mi. Donec vel leo nulla. Duis lorem dolor, aliquam et diam nec, sodales aliquet tortor. Donec volutpat, libero non dignissim tristique, erat ligula rutrum nulla, ac venenatis ex erat ac lectus. Donec venenatis massa vel egestas sagittis. In congue tincidunt justo, vel lobortis ipsum egestas sit amet.Ut nulla nisl, ullamcorper vitae vestibulum in, efficitur dignissim ipsum. Sed tortor nulla, lobortis a ipsum in, semper euismod diam. In ornare metus eu gravida elementum. Praesent ullamcorper in eros convallis scelerisque. Fusce tincidunt luctus tellus imperdiet pellentesque. Curabitur leo lorem, pellentesque eget consectetur vitae, lobortis a mi. Integer vitae dui sit amet urna vestibulum cursus in eget nisi. Vestibulum facilisis rutrum ultricies. Donec tristique elementum est et eleifend. Quisque ac porta justo.Curabitur placerat nunc nec dui aliquet, eget ultrices lorem pulvinar. Suspendisse nunc turpis, congue et tempor ut, consequat non metus. Suspendisse iaculis congue erat, lacinia feugiat orci bibendum a. Nullam quis velit felis.";
-$a = explode(" ",$Lorem);
-print_r($a);
-?>
+$lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim odio, vehicula ac magna vel, viverra lacinia nisl. Etiam nec massa enim. Morbi sed dictum nisi. Suspendisse et gravida lorem, eu accumsan mi. Ut bibendum nisi sapien, ac mollis ex elementum vel. Integer metus nulla, efficitur quis blandit in, molestie sed sem. Nullam eget massa turpis. Suspendisse turpis leo, consectetur sed massa ac, viverra cursus lorem. Quisque vel nibh efficitur, placerat ante et, fringilla nulla. Suspendisse urna velit, tempor eget odio at, commodo venenatis neque. Donec vestibulum mollis diam eu egestas. Quisque iaculis lorem eros, et interdum justo pellentesque vitae.";
+$szukane = "";
+$liczba_kolumn = 5;
+function filtruj($tablica, $szukaj)
+{
+    $slowa = explode(" ", $tablica);
+    sort($slowa, SORT_NATURAL | SORT_FLAG_CASE);
+    foreach ($slowa as $slowo) {
+        if (strstr($slowo, $szukaj) == true) {
+            $filtr[] = $slowo;
+        }
+    }
+    return $filtr;
+}
+var_dump(filtruj($lorem, $szukane));
+
+
+function renderHTMLTable($tablica, $kolumny)
+{
+    $table = '<table>';
+    $slowa = explode(" ", $tablica);
+    $liczba = 0;
+    $licz_kolumny = $kolumny - 1;
+    foreach ($slowa as $slowo) {
+        if (
+            $liczba % $kolumny == 0
+        ) {
+            $table .= '<tr>';
+        }
+        if (
+            $liczba < $kolumny
+        ) {
+            $table .= '<th>' . $slowo . '</th>';
+        } else {
+            $table .= '<td>' . $slowo . '</td>';
+        }
+        if (
+            $liczba % $kolumny == $licz_kolumny
+        ) {
+            $table .= '</tr>';
+        }
+        $liczba++;
+    }
+    if (
+        count(
+            $slowa
+        ) % $kolumny !== 0
+    ) {
+        $table .= '</tr>';
+    }
+    return $table;
+}
+echo renderHTMLTable($lorem, $liczba_kolumn);
